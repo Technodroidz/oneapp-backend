@@ -26,8 +26,7 @@ Route::post('register', [LoginController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::get('allusers',[HomeController::class, 'getAllUsers'])->name('allusers');
 Route::get('fmchannels', [HomeController::class, 'fmchannels']);
-Route::get('youtubechannels', [HomeController::class, 'redirectToGoogle']);
-Route::get('googlecallback', [HomeController::class, 'handleGoogleCallback']);
+Route::get('youtubechannels', [HomeController::class, 'youtubeChannels']);
 
 Route::group(['middleware' => 'api'],function(){
     Route::post('logout', [AuthController::class, 'logout']);
