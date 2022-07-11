@@ -8,6 +8,8 @@ use Socialite;
 use Barryvanveen\Lastfm\Lastfm;
 use Alaouy\Youtube\Facades\Youtube;
 use GuzzleHttp\Client;
+use App\Classes\AgoraDynamicKey\RtcTokenBuilder;
+use App\Events\MakeAgoraCall;
 
 class HomeController extends Controller
 {
@@ -59,5 +61,39 @@ class HomeController extends Controller
        }
       // print_r($data);die;
        return response()->json($data); 
+    }
+
+    public function index(Request $request,$id)
+    {
+        // fetch all users apart from the authenticated user
+        $users = User::where('id', '<>', $id)->get();
+        return response()->json($users);
+    }
+
+    public function token(Request $request)
+    {
+
+        $appID = env('AGORA_APP_ID');
+        $appCertificate = env('AGORA_APP_CERTIFICATE');
+        $channelName = $request->channelName;
+        $user = $request->username;
+        $role = RtcTokenBuilder::RoleAttendee;
+        $expireTimeInSeconds = 3600;
+        $currentTimestamp = now()->getTimestamp();
+        $privilegeExpiredTs = $currentTimestamp + $expireTimeInSeconds;
+
+        $token = RtcTokenBuilder::buildTokenWithUserAccount($appID, $appCertificate, $channelName, $user, $role, $privilegeExpiredTs);
+
+        return response()->json($token);
+    }
+
+    public function callUser(Request $request)
+    {
+
+        $data['userToCall'] = $request->user_to_call;
+        $data['channelName'] = $request->channel_name;
+        $data['from'] = $request->user_calling;
+
+        return response()->json(broadcast(new MakeAgoraCall($data))->toOthers());
     }
 }

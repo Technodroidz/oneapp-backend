@@ -28,6 +28,10 @@ Route::get('allusers',[HomeController::class, 'getAllUsers'])->name('allusers');
 Route::get('fmchannels', [HomeController::class, 'fmchannels']);
 Route::get('youtubechannels', [HomeController::class, 'youtubeChannels']);
 
+Route::get('/agora-chat/{id}', [HomeController::class, 'index']);
+Route::post('/agora/token', [HomeController::class, 'token']);
+Route::post('/agora/call-user', [HomeController::class, 'callUser']);
+
 Route::group(['middleware' => 'api'],function(){
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
