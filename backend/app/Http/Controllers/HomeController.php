@@ -70,6 +70,12 @@ class HomeController extends Controller
         return response()->json($users);
     }
 
+    public function getUserDetails(Request $request,$id)
+    {
+        $users = User::where('id', $id)->first();
+        return response()->json($users);
+    }
+
     public function token(Request $request)
     {
 
@@ -78,6 +84,7 @@ class HomeController extends Controller
         $channelName = $request->channelName;
         $user = $request->username;
         $role = RtcTokenBuilder::RoleAttendee;
+       // print_r($role);die;
         $expireTimeInSeconds = 3600;
         $currentTimestamp = now()->getTimestamp();
         $privilegeExpiredTs = $currentTimestamp + $expireTimeInSeconds;

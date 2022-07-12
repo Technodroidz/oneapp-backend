@@ -25,10 +25,11 @@ use App\Http\Controllers\HomeController;
 Route::post('register', [LoginController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::get('allusers',[HomeController::class, 'getAllUsers'])->name('allusers');
+Route::get('userdetails/{id}',[HomeController::class, 'getUserDetails']);
 Route::get('fmchannels', [HomeController::class, 'fmchannels']);
 Route::get('youtubechannels', [HomeController::class, 'youtubeChannels']);
 
-Route::get('/agora-chat/{id}', [HomeController::class, 'index']);
+Route::get('/chatusers/{id}', [HomeController::class, 'index']);
 Route::post('/agora/token', [HomeController::class, 'token']);
 Route::post('/agora/call-user', [HomeController::class, 'callUser']);
 
