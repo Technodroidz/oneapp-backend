@@ -72,7 +72,7 @@ class HomeController extends Controller
 
     public function getUserDetails(Request $request,$id)
     {
-        $users = User::where('id', $id)->first();
+        $users = User::where('id', $id)->get();
         return response()->json($users);
     }
 
